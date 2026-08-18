@@ -15,6 +15,7 @@
             --glass-border: rgba(255, 255, 255, 0.08);
             --text-main: #f8fafc;
             --text-muted: #94a3b8;
+            --accent-color: #60a5fa;
         }
 
         * {
@@ -79,7 +80,7 @@
             margin-bottom: 3rem;
         }
 
-        /* Magische Buttons */
+        /* Magische Buttons Startseite */
         .button-group {
             display: flex;
             gap: 2rem;
@@ -120,9 +121,9 @@
             left: 100%;
         }
 
-        /* Sektionen (Kandidat & Ausbilder) */
+        /* Sektionen Logik */
         .content-section {
-            display: none; /* Initial versteckt */
+            display: none; 
             animation: slideUp 0.6s ease-out forwards;
         }
 
@@ -155,18 +156,15 @@
         }
 
         /* Grid für Inhalte */
-        .grid-2 {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-        }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2rem;}
+        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 1.5rem;}
 
-        @media (max-width: 768px) {
-            .grid-2 { grid-template-columns: 1fr; }
+        @media (max-width: 900px) {
+            .grid-2, .grid-3 { grid-template-columns: 1fr; }
             .hero-title { font-size: 2.5rem; }
         }
 
-        /* Karten innerhalb der Sektionen */
+        /* CV & Info Cards */
         .info-card {
             background: rgba(0,0,0,0.2);
             padding: 1.5rem;
@@ -174,10 +172,57 @@
             border: 1px solid var(--glass-border);
         }
 
-        .info-card h3 { color: #60a5fa; margin-bottom: 1rem; }
-        .info-card ul { list-style: none; }
-        .info-card ul li { margin-bottom: 0.8rem; font-size: 0.95rem; color: var(--text-muted); }
-        .info-card ul li strong { color: var(--text-main); }
+        .info-card h3 { color: var(--accent-color); margin-bottom: 1rem; }
+        .info-card p { font-size: 0.95rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 1rem;}
+        
+        /* Kontakt Info Header im CV */
+        .contact-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px dashed var(--glass-border);
+        }
+        .contact-header p { color: var(--text-muted); font-size: 0.9rem; margin-top: 0.5rem; }
+
+        /* Timeline für Lebenslauf */
+        .timeline { margin-top: 1.5rem; border-left: 2px solid rgba(255,255,255,0.1); padding-left: 1.5rem; }
+        .timeline-item { position: relative; margin-bottom: 1.5rem; }
+        .timeline-item::before {
+            content: ''; position: absolute; left: -1.85rem; top: 0.2rem;
+            width: 12px; height: 12px; border-radius: 50%;
+            background: var(--accent-color);
+            box-shadow: 0 0 10px var(--accent-color);
+        }
+        .timeline-date { font-size: 0.85rem; color: var(--accent-color); font-weight: 600; margin-bottom: 0.3rem;}
+        .timeline-title { font-size: 1.1rem; font-weight: 600; color: var(--text-main); margin-bottom: 0.3rem;}
+        .timeline-desc { font-size: 0.9rem; color: var(--text-muted); line-height: 1.5;}
+
+        /* Resource Buttons in Ausbilder */
+        .resource-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            color: var(--text-main);
+            text-decoration: none;
+        }
+
+        .resource-btn:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: var(--accent-color);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .resource-icon { font-size: 2rem; margin-bottom: 0.5rem; }
+        .resource-title { font-weight: 600; font-size: 1.05rem; }
 
         /* Video Placeholder */
         .video-placeholder {
@@ -195,14 +240,8 @@
         }
 
         /* Animationen */
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
@@ -216,7 +255,7 @@
             
             <div class="button-group">
                 <button class="magic-btn" onclick="switchTab('kandidat')">
-                    <span class="icon">👤</span> Der Kandidat
+                    <span class="icon">👤</span> Der Kandidat (Lebenslauf)
                 </button>
                 <button class="magic-btn" onclick="switchTab('ausbilder')">
                     <span class="icon">🎯</span> Die Ausbildung
@@ -224,33 +263,104 @@
             </div>
         </div>
 
-        <!-- SEKTION 1: DER KANDIDAT -->
+        <!-- SEKTION 1: DER KANDIDAT (LEBENSLAUF) -->
         <div id="kandidat" class="content-section glass-panel">
             <div class="section-header">
                 <h2>Profil & Qualifikationen</h2>
                 <button class="back-btn" onclick="switchTab('home')">Zurück</button>
             </div>
             
+            <div class="contact-header">
+                <h2>Remo Tresch</h2>
+                <p>Attinghauserstrasse 32, 6460 Altdorf UR | 079 842 03 04 | remotresch@gmail.com</p>
+            </div>
+
+            <div class="info-card" style="margin-bottom: 2rem;">
+                <h3>Kurzprofil / Zusammenfassung</h3>
+                <p>
+                    Erfahrene Führungspersönlichkeit (Polizeidienst, 12+ Jahre) mit nachweislicher Expertise in der Einhaltung strengster Compliance- und Sicherheitsprotokolle und der Leitung operativer Teams. Suche den Quereinstieg in die industrielle Qualitätssicherung, um die erprobte analytische Problemlösungskompetenz und die Null-Fehler-Mentalität in die Beschussabnahme einzubringen. Spezialisiert auf Krisenmanagement und Verhandlungsführung unter Druck. 
+                    <br><i>(Hinweis: Text hier ggf. für die Ausbilder-Rolle anpassen)</i>
+                </p>
+            </div>
+            
             <div class="grid-2">
+                <!-- Spalte 1: Berufserfahrung -->
                 <div class="info-card">
-                    <h3>Aktuelle Funktionen</h3>
-                    <ul>
-                        <li><strong>Schichtchef</strong><br>Schwerverkehrszentrum (SVZ) Erstfeld</li>
-                        <li><strong>Instruktor</strong><br>Persönliche Sicherheit</li>
-                        <li><strong>Social Media Team</strong><br>Kantonspolizei Uri</li>
-                    </ul>
+                    <h3>Berufserfahrungen</h3>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-date">November 2024 – heute</div>
+                            <div class="timeline-title">Schichtchef SVZ</div>
+                            <div class="timeline-desc">
+                                <strong>Führung und Teamleitung:</strong> Operative Verantwortung für 30 Mitarbeiter und Koordination externer Partner.<br>
+                                <strong>Prozess-Compliance:</strong> Einhaltung komplexer Verkehrsvorschriften (SVG/VTS).<br>
+                                <strong>Qualitätskontrolle:</strong> Sicherstellung der korrekten Rapportierung und Rechtssicherheit.
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-date">Mai 2014 – November 2024</div>
+                            <div class="timeline-title">Polizist Kapo Uri</div>
+                            <div class="timeline-desc">
+                                <strong>Bereitschafts- & Verkehrspolizei:</strong> Erstausrückende Patrouille (SVG/StGB).<br>
+                                <strong>Krisenmanagement:</strong> Leitung der ersten Einsatzkräfte bei unvorhergesehenen Vorfällen.<br>
+                                <strong>Compliance:</strong> Durchsetzung StGB und SVG inkl. lückenloser Dokumentation.
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-date">Oktober 2013 – Mai 2014</div>
+                            <div class="timeline-title">Polizeiausbildung IPH</div>
+                            <div class="timeline-desc">Absolvierung der Polizeischule.</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-date">Oktober 2012 – September 2013</div>
+                            <div class="timeline-title">Infanterist DD</div>
+                            <div class="timeline-desc">Militärischer Durchdiener in der Infanterie.</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-date">August 2009 – Mai 2012</div>
+                            <div class="timeline-title">Berufslehre als Bäcker / Konditor</div>
+                            <div class="timeline-desc">Bäckerei Herger in Attinghausen. (Zwischen Mai-Okt 2012: Gerüstbauer).</div>
+                        </div>
+                    </div>
                 </div>
-                <div class="info-card">
-                    <h3>Erfahrung & Fundament</h3>
-                    <ul>
-                        <li><strong>Frontpolizist (2013 - 2024)</strong><br>Elf Jahre operative Erfahrung</li>
-                        <li><strong>Militär</strong><br>Infanterist Durchdiener</li>
-                        <li><strong>Führung</strong><br>Erfahrung in der Teamleitung und Entscheidungsfindung</li>
-                    </ul>
+
+                <!-- Spalte 2: Nebenämter, Hobbies & Sprachen -->
+                <div>
+                    <div class="info-card" style="margin-bottom: 2rem;">
+                        <h3>Im Nebenamt</h3>
+                        <div class="timeline">
+                            <div class="timeline-item">
+                                <div class="timeline-date">Januar 2026 – heute</div>
+                                <div class="timeline-title">Social Media Verantwortlicher & Content Creator SVZ</div>
+                                <div class="timeline-desc">Konzeption, Dreh und Schnitt von Reels zur transparenten und modernen Präsentation der Polizeiarbeit.</div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-date">Januar 2020 – Dezember 2025</div>
+                                <div class="timeline-title">Verhandler (Kurs 1 & 2, ZPK)</div>
+                                <div class="timeline-desc">Spezialist für Deeskalation und lösungsorientierte Kommunikation in kritischen Stresssituationen.</div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-date">September 2019 – heute</div>
+                                <div class="timeline-title">PSI Instruktor</div>
+                                <div class="timeline-desc">Aus- und Weiterbildung in operativen Sicherheitsmodulen. Vermittlung von Prozessabläufen und Sicherheitsvorschriften.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="info-card">
+                        <h3>Hobbys & Sprachen</h3>
+                        <p><strong>Krafttraining (seit 2012):</strong> 4-5 Tage/Woche. Stetige selbstständige Weiterbildung in der Sportwissenschaft.</p>
+                        <p><strong>Kampfsport (seit 2011):</strong> 2-3 Tage/Woche. MMA / Kickboxen (Ibach) mit Turniererfahrung.</p>
+                        <hr style="border: 0; border-top: 1px solid rgba(255,255,255,0.1); margin: 1rem 0;">
+                        <p><strong>Deutsch:</strong> Muttersprache</p>
+                        <p><strong>Englisch:</strong> Gute Kenntnisse</p>
+                        <p><strong>Italienisch:</strong> Grundkenntnisse vorhanden</p>
+                    </div>
                 </div>
             </div>
-            <div style="margin-top: 2rem; text-align: center;">
-                <button class="magic-btn">Dossier / CV als PDF laden</button>
+            
+            <div style="text-align: center; margin-top: 1rem;">
+                <button class="magic-btn">Dossier komplett als PDF laden</button>
             </div>
         </div>
 
@@ -261,25 +371,40 @@
                 <button class="back-btn" onclick="switchTab('home')">Zurück</button>
             </div>
             <p style="color: var(--text-muted); margin-bottom: 2rem;">
-                Ein Auszug möglicher digitaler Lerneinheiten zur Vorbereitung auf praktische Sequenzen.
+                Willkommen im Ausbildungs-Hub. Hier finden Aspiranten vorbereitende Lernvideos und alle relevanten Ressourcen für den perfekten Ausbildungsablauf.
             </p>
             
+            <!-- Video Bereich -->
             <div class="grid-2">
                 <div class="info-card">
                     <div class="video-placeholder">▶ Video: Taktische Eigensicherung</div>
                     <h3>Modul 1: Distanzkontrolle</h3>
-                    <p style="font-size: 0.9rem; color: var(--text-muted);">
-                        Worauf Aspiranten in dynamischen Lagen achten müssen. Theorie-Briefing vor dem praktischen Training.
-                    </p>
+                    <p>Worauf Aspiranten in dynamischen Lagen achten müssen. Theorie-Briefing vor dem praktischen Training.</p>
                 </div>
                 <div class="info-card">
                     <div class="video-placeholder">▶ Video: Ablauf Taktische Einsatzmedizin</div>
                     <h3>Modul 2: TEM Grundlagen</h3>
-                    <p style="font-size: 0.9rem; color: var(--text-muted);">
-                        Schnittstellen und Materialerklärung. Vorbereitendes E-Learning für das Modul TEM.
-                    </p>
+                    <p>Schnittstellen und Materialerklärung. Vorbereitendes E-Learning für das Modul TEM.</p>
                 </div>
             </div>
+
+            <!-- NEU: Zusätzliche Ressourcen Buttons -->
+            <h3 style="margin-top: 3rem; color: var(--text-main); font-size: 1.3rem;">Ressourcen & Planung</h3>
+            <div class="grid-3">
+                <div class="resource-btn" onclick="alert('Hier öffnet sich ein Modal oder eine Seite mit nützlichen Infos.')">
+                    <div class="resource-icon">📚</div>
+                    <div class="resource-title">Nützliche Infos</div>
+                </div>
+                <div class="resource-btn" onclick="alert('Hier finden die Aspiranten interne Links und Quellenangaben.')">
+                    <div class="resource-icon">🔍</div>
+                    <div class="resource-title">Wo bekomme ich die Infos?</div>
+                </div>
+                <div class="resource-btn" onclick="alert('Hier öffnet sich der Terminkalender mit den Modul-Daten.')">
+                    <div class="resource-icon">📅</div>
+                    <div class="resource-title">Terminkalender</div>
+                </div>
+            </div>
+
         </div>
 
     </div>
@@ -297,6 +422,7 @@
             } else {
                 // Gewünschte Sektion einblenden
                 document.getElementById(tabId).classList.add('active');
+                window.scrollTo(0, 0); // Nach oben scrollen
             }
         }
     </script>
