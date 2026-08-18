@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bewerbung | DC Ausbilder Stv.</title>
+    <style>
+        /* Grundlegendes Setup & Magisches Design */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
+
+        :root {
+            --primary-glow: rgba(0, 112, 243, 0.6);
+            --bg-color: #050b14;
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(0, 112, 243, 0.15), transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(0, 212, 255, 0.1), transparent 25%);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-x: hidden;
+        }
+
+        /* Container & Glas-Effekt */
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            padding: 2rem;
+            margin-top: 5vh;
+        }
+
+        .glass-panel {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 3rem;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+            transition: all 0.5s ease;
+        }
+
+        /* Hero Section (Startseite) */
+        .hero-section {
+            text-align: center;
+            animation: fadeIn 1.2s ease-out;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #ffffff 0%, #a5b4fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            color: var(--text-muted);
+            font-weight: 300;
+            margin-bottom: 3rem;
+        }
+
+        /* Magische Buttons */
+        .button-group {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .magic-btn {
+            position: relative;
+            padding: 1rem 2.5rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #fff;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50px;
+            cursor: pointer;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .magic-btn::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: all 0.5s ease;
+        }
+
+        .magic-btn:hover {
+            transform: translateY(-3px);
+            border-color: rgba(0, 112, 243, 0.5);
+            box-shadow: 0 0 20px var(--primary-glow);
+        }
+
+        .magic-btn:hover::before {
+            left: 100%;
+        }
+
+        /* Sektionen (Kandidat & Ausbilder) */
+        .content-section {
+            display: none; /* Initial versteckt */
+            animation: slideUp 0.6s ease-out forwards;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid var(--glass-border);
+            padding-bottom: 1rem;
+        }
+
+        .back-btn {
+            background: transparent;
+            border: 1px solid var(--text-muted);
+            color: var(--text-muted);
+            padding: 0.5rem 1.5rem;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .back-btn:hover {
+            background: var(--text-main);
+            color: var(--bg-color);
+        }
+
+        /* Grid für Inhalte */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .grid-2 { grid-template-columns: 1fr; }
+            .hero-title { font-size: 2.5rem; }
+        }
+
+        /* Karten innerhalb der Sektionen */
+        .info-card {
+            background: rgba(0,0,0,0.2);
+            padding: 1.5rem;
+            border-radius: 16px;
+            border: 1px solid var(--glass-border);
+        }
+
+        .info-card h3 { color: #60a5fa; margin-bottom: 1rem; }
+        .info-card ul { list-style: none; }
+        .info-card ul li { margin-bottom: 0.8rem; font-size: 0.95rem; color: var(--text-muted); }
+        .info-card ul li strong { color: var(--text-main); }
+
+        /* Video Placeholder */
+        .video-placeholder {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(45deg, #0f172a, #1e293b);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px dashed #475569;
+            margin-bottom: 1rem;
+            color: #94a3b8;
+            font-weight: 600;
+        }
+
+        /* Animationen */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+        <!-- STARTSEITE -->
+        <div id="home" class="hero-section glass-panel">
+            <h1 class="hero-title">Remo Tresch</h1>
+            <h2 class="hero-subtitle">Bewerbung als DC Ausbilder Stv.</h2>
+            
+            <div class="button-group">
+                <button class="magic-btn" onclick="switchTab('kandidat')">
+                    <span class="icon">👤</span> Der Kandidat
+                </button>
+                <button class="magic-btn" onclick="switchTab('ausbilder')">
+                    <span class="icon">🎯</span> Die Ausbildung
+                </button>
+            </div>
+        </div>
+
+        <!-- SEKTION 1: DER KANDIDAT -->
+        <div id="kandidat" class="content-section glass-panel">
+            <div class="section-header">
+                <h2>Profil & Qualifikationen</h2>
+                <button class="back-btn" onclick="switchTab('home')">Zurück</button>
+            </div>
+            
+            <div class="grid-2">
+                <div class="info-card">
+                    <h3>Aktuelle Funktionen</h3>
+                    <ul>
+                        <li><strong>Schichtchef</strong><br>Schwerverkehrszentrum (SVZ) Erstfeld</li>
+                        <li><strong>Instruktor</strong><br>Persönliche Sicherheit</li>
+                        <li><strong>Social Media Team</strong><br>Kantonspolizei Uri</li>
+                    </ul>
+                </div>
+                <div class="info-card">
+                    <h3>Erfahrung & Fundament</h3>
+                    <ul>
+                        <li><strong>Frontpolizist (2013 - 2024)</strong><br>Elf Jahre operative Erfahrung</li>
+                        <li><strong>Militär</strong><br>Infanterist Durchdiener</li>
+                        <li><strong>Führung</strong><br>Erfahrung in der Teamleitung und Entscheidungsfindung</li>
+                    </ul>
+                </div>
+            </div>
+            <div style="margin-top: 2rem; text-align: center;">
+                <button class="magic-btn">Dossier / CV als PDF laden</button>
+            </div>
+        </div>
+
+        <!-- SEKTION 2: DER AUSBILDER -->
+        <div id="ausbilder" class="content-section glass-panel">
+            <div class="section-header">
+                <h2>Digitale Lernumgebung für Aspiranten</h2>
+                <button class="back-btn" onclick="switchTab('home')">Zurück</button>
+            </div>
+            <p style="color: var(--text-muted); margin-bottom: 2rem;">
+                Ein Auszug möglicher digitaler Lerneinheiten zur Vorbereitung auf praktische Sequenzen.
+            </p>
+            
+            <div class="grid-2">
+                <div class="info-card">
+                    <div class="video-placeholder">▶ Video: Taktische Eigensicherung</div>
+                    <h3>Modul 1: Distanzkontrolle</h3>
+                    <p style="font-size: 0.9rem; color: var(--text-muted);">
+                        Worauf Aspiranten in dynamischen Lagen achten müssen. Theorie-Briefing vor dem praktischen Training.
+                    </p>
+                </div>
+                <div class="info-card">
+                    <div class="video-placeholder">▶ Video: Ablauf Taktische Einsatzmedizin</div>
+                    <h3>Modul 2: TEM Grundlagen</h3>
+                    <p style="font-size: 0.9rem; color: var(--text-muted);">
+                        Schnittstellen und Materialerklärung. Vorbereitendes E-Learning für das Modul TEM.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- JavaScript für die Interaktivität -->
+    <script>
+        function switchTab(tabId) {
+            // Alle Sektionen ausblenden
+            document.getElementById('home').style.display = 'none';
+            document.getElementById('kandidat').classList.remove('active');
+            document.getElementById('ausbilder').classList.remove('active');
+
+            if(tabId === 'home') {
+                document.getElementById('home').style.display = 'block';
+            } else {
+                // Gewünschte Sektion einblenden
+                document.getElementById(tabId).classList.add('active');
+            }
+        }
+    </script>
+</body>
+</html>
